@@ -12,6 +12,7 @@ _Provide a brief description of the PR_
       can be listed
 - [ ] Each of my servers has an accompanying README file to explain its purpose
       and other details
+- [ ] I ran the csharpier formatting tool
 
 ### New MCP Tool(s) Checklist
 
@@ -21,3 +22,4 @@ _Provide a brief description of the PR_
 - [ ] I have updated `ServiceCollectionExtensions.cs` that registers my tools and
       services in a private extension method
 - [ ] My tools are not registered as a singleton
+- [ ] I ran the csharpier formatting tool

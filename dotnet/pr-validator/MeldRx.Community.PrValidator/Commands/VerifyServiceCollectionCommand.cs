@@ -1,9 +1,12 @@
 using System.Reflection;
 using CommandLine;
+using MeldRx.Community.Mcp.Core;
+using MeldRx.Community.McpTools;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MeldRx.Community.PrValidator.Commands;
 
@@ -59,7 +62,7 @@ public class VerifyServiceCollectionCommandHandler : ICommandHandler<VerifyServi
             )
             {
                 ConsoleUtilities.WriteErrorLine(
-                    $"The method {symbol.Name} does not start with 'Add' and does not end with 'McpTool' or 'McpTools'."
+                    $"ERROR: The method {symbol.Name} does not start with 'Add' and does not end with 'McpTool' or 'McpTools'."
                 );
 
                 hasErrors = true;
@@ -69,7 +72,31 @@ public class VerifyServiceCollectionCommandHandler : ICommandHandler<VerifyServi
             var references = (await SymbolFinder.FindReferencesAsync(symbol, solution)).ToList();
             if (references.Count == 0 || !references[0].Locations.Any())
             {
-                ConsoleUtilities.WriteErrorLine($"The method {symbol.Name} has no references");
+                ConsoleUtilities.WriteErrorLine(
+                    $"ERROR: The method {symbol.Name} has no references"
+                );
+                hasErrors = true;
+            }
+        }
+
+        var serviceCollection = new ServiceCollection().AddMcpTools();
+        foreach (var descriptor in serviceCollection)
+        {
+            if (
+                descriptor.ServiceType != typeof(IMcpTool)
+                && !descriptor.ServiceType.IsAssignableTo(typeof(IMcpTool))
+            )
+            {
+                continue;
+            }
+
+            if (descriptor.Lifetime == ServiceLifetime.Singleton)
+            {
+                Console.WriteLine(
+                    $"ERROR: The mcp tool service '{descriptor.ServiceType.Name}' has been registered as a singleton, which "
+                        + $"is not allowed."
+                );
+
                 hasErrors = true;
             }
         }
