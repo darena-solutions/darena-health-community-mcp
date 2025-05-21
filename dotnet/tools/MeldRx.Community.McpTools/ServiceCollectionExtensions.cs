@@ -15,6 +15,6 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddSingleton<IPatientSearchService, PatientSearchService>()
-            .AddSingleton<IMcpTool, PatientAgeTool>();
+            .AddScoped<IMcpTool, PatientAgeTool>();
     }
 }
