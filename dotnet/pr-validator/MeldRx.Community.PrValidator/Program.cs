@@ -44,7 +44,7 @@ await Parser
                     )
                 );
 
-            var isSuccess = await task;
-            Environment.Exit(isSuccess ? 0 : 1);
+            var hasErrors = await task;
+            Environment.Exit(hasErrors ? 1 : 0);
         }
     );
