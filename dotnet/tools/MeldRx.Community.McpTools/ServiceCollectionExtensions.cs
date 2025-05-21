@@ -8,18 +8,13 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMcpTools(this IServiceCollection services)
     {
-        return services.AddPatientAgeMcpToolss();
+        return services.AddPatientAgeMcpTool();
     }
 
-    private static IServiceCollection AddPatientAgeMcpToolss(this IServiceCollection services)
+    private static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
     {
         return services
             .AddSingleton<IPatientSearchService, PatientSearchService>()
             .AddSingleton<IMcpTool, PatientAgeTool>();
-    }
-
-    private static IServiceCollection AddNonReferencedMcpTool(this IServiceCollection services)
-    {
-        return services;
     }
 }
