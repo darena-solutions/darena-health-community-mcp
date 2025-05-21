@@ -8,10 +8,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMcpTools(this IServiceCollection services)
     {
-        return services.AddPatientAgeMcpTool();
+        return services.AddPatientAgeMcpToolss();
     }
 
-    private static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
+    private static IServiceCollection AddPatientAgeMcpToolss(this IServiceCollection services)
     {
         return services
             .AddSingleton<IPatientSearchService, PatientSearchService>()
