@@ -16,6 +16,6 @@ jobs:
           dotnet publish -c Release -r linux-x64
 
       - name: Run pr-validator
-        working-directory: dotnet/tools/MeldRx.Community.McpTools/bin/Release/net8.0/linux-x64
+        working-directory: dotnet/pr-validator/MeldRx.Community.PrValidator/bin/Release/net8.0/linux-x64
         run: |
           ./pr-validator verify-sc
