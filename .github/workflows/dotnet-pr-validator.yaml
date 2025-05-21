@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    paths:
+      - "dotnet/tools/MeldRx.Community.McpTools/ServiceCollectionExtensions.cs"
+
+jobs:
+  check_dotnet_restrictions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build pr-validator
+        working-directory: dotnet/pr-validator/MeldRx.Community.PrValidator
+        run: |
+          dotnet publish -c Release -r linux-x64
+
+      - name: Run pr-validator
+        working-directory: dotnet/tools/MeldRx.Community.McpTools/bin/Release/net8.0/linux-x64
+        run: |
+          ./pr-validator verify-sc
