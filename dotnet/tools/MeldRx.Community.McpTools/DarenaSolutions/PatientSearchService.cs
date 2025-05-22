@@ -9,6 +9,7 @@ public class PatientSearchService : IPatientSearchService
 {
     public async Task<Patient?> FindByIdAsync(FhirContext context, string id)
     {
+        // Made some comment changes here.
         var fhirClient = GetClient(context);
         return await fhirClient.ReadAsync<Patient>(id);
     }
