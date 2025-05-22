@@ -53,7 +53,8 @@ public class VerifyDirectoryStructureCommandHandler
             if (!FileExistsInToolsDirectory(di))
             {
                 ConsoleUtilities.WriteErrorLine(
-                    $"ERROR: When working with tools, all files must exist in the /{ValidToolsProjectDirName} directory"
+                    $"ERROR: When working with tools, all files must exist in the /{ValidToolsProjectDirName} directory. "
+                        + $"Detected file with error: {file}"
                 );
 
                 hasErrors = true;

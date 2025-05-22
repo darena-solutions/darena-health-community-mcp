@@ -4,21 +4,28 @@ namespace MeldRx.Community.PrValidator;
 
 public static class FileUtilities
 {
-    public static string GetExecutingDirectory()
+    public static string GetRepoRootDirectory()
     {
-        return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+        var githubWorkspaceDir = Environment.GetEnvironmentVariable("GITHUB_WORKSPACE");
+        if (!string.IsNullOrWhiteSpace(githubWorkspaceDir))
+        {
+            return githubWorkspaceDir;
+        }
+
+        var executingDirectory =
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
             ?? throw new InvalidOperationException(
                 "Could not find the executing assembly location"
             );
-    }
 
-    public static string GetRepoRootDirectory(DirectoryInfo? di = null)
-    {
-        var githubWorkspaceDir = Environment.GetEnvironmentVariable("GITHUB_WORKSPACE");
+        var currentDir = new DirectoryInfo(executingDirectory);
+        while (currentDir.EnumerateDirectories().All(x => x.Name != ".github"))
+        {
+            currentDir =
+                currentDir.Parent
+                ?? throw new InvalidOperationException("Could not find root repository directory.");
+        }
 
-        // TODO: Need to update for local as well soon
-        return string.IsNullOrWhiteSpace(githubWorkspaceDir)
-            ? throw new InvalidOperationException("Github workspace env variable could not be read")
-            : githubWorkspaceDir;
+        return currentDir.FullName;
     }
 }
