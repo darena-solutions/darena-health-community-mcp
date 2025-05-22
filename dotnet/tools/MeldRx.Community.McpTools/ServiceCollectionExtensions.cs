@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
     {
+        // Small update here.
         return services
             .AddSingleton<IPatientSearchService, PatientSearchService>()
             .AddScoped<IMcpTool, PatientAgeTool>();
