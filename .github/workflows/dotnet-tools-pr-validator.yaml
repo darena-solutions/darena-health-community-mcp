@@ -1,10 +1,10 @@
 on:
   pull_request:
     paths:
-      - "dotnet/tools/MeldRx.Community.McpTools/ServiceCollectionExtensions.cs"
+      - "dotnet/tools/MeldRx.Community.McpTools/**"
 
 jobs:
-  check_dotnet_restrictions:
+  check_dotnet_tools_restrictions:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,8 +20,10 @@ jobs:
       - name: Run pr-validator
         working-directory: dotnet/pr-validator/MeldRx.Community.PrValidator/bin/Release/net8.0/linux-x64
         run: |
-          echo "Checking file differences";
           CHANGED_FILES="$(git diff --name-only HEAD^1 HEAD | paste -sd ' ' -)";
 
-          echo "Changed files are: $CHANGED_FILES";
+          echo "-- Verifying ServiceCollectionExtensions.cs --";
           ./pr-validator verify-sc;
+
+          echo "-- Verifying directory structure --";
+          ./pr-validator verify-tools-dir -c $CHANGED_FILES;

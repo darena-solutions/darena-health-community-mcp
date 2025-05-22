@@ -101,12 +101,7 @@ public class VerifyServiceCollectionCommandHandler : ICommandHandler<VerifyServi
             }
         }
 
-        if (!hasErrors)
-        {
-            Console.WriteLine("Validation successful!");
-        }
-
-        return hasErrors;
+        return !hasErrors;
     }
 
     private DirectoryInfo FindParentDirectory(DirectoryInfo currentDirectory)
