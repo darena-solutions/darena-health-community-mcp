@@ -19,7 +19,7 @@ public static class FileUtilities
             );
 
         var currentDir = new DirectoryInfo(executingDirectory);
-        while (currentDir.EnumerateDirectories().All(x => x.Name != ".github"))
+        while (currentDir.EnumerateDirectories().All(x => x.Name != DirectoryNames.GitHub))
         {
             currentDir =
                 currentDir.Parent

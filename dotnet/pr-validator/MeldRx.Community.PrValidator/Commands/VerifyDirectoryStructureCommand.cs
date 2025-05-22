@@ -15,8 +15,6 @@ public class VerifyDirectoryStructureCommand : ICommand
 public class VerifyDirectoryStructureCommandHandler
     : ICommandHandler<VerifyDirectoryStructureCommand>
 {
-    private const string ValidToolsProjectDirName = "MeldRx.Community.McpTools";
-
     public Task<bool> HandleAsync(VerifyDirectoryStructureCommand command)
     {
         var files = command.ChangedFiles.ToList();
@@ -29,6 +27,11 @@ public class VerifyDirectoryStructureCommandHandler
         var hasErrors = false;
         foreach (var file in files)
         {
+            if (file.StartsWith(DirectoryNames.GitHub))
+            {
+                continue;
+            }
+
             if (
                 file.Contains(".csproj", StringComparison.InvariantCultureIgnoreCase)
                 || file.Contains(".sln", StringComparison.InvariantCultureIgnoreCase)
@@ -53,7 +56,7 @@ public class VerifyDirectoryStructureCommandHandler
             if (!FileExistsInToolsDirectory(di))
             {
                 ConsoleUtilities.WriteErrorLine(
-                    $"ERROR: When working with tools, all files must exist in the /{ValidToolsProjectDirName} directory. "
+                    $"ERROR: When working with tools, all files must exist in the /{DirectoryNames.McpToolsProject} directory. "
                         + $"Detected file with error: {file}"
                 );
 
@@ -66,7 +69,7 @@ public class VerifyDirectoryStructureCommandHandler
 
     private bool FileExistsInToolsDirectory(DirectoryInfo di)
     {
-        if (di.Name == ValidToolsProjectDirName)
+        if (di.Name == DirectoryNames.McpToolsProject)
         {
             return true;
         }

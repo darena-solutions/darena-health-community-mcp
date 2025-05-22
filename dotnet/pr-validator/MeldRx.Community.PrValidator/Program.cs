@@ -27,7 +27,6 @@ await Parser
                     $"No handler for command type: {obj.GetType().Name}"
                 );
 
-            //ASDF
             var handler = Activator.CreateInstance(handlerType);
             var method =
                 handlerType.GetMethod(
