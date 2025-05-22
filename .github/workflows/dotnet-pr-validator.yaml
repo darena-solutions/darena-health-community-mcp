@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Build pr-validator
         working-directory: dotnet/pr-validator/MeldRx.Community.PrValidator
@@ -18,4 +20,8 @@ jobs:
       - name: Run pr-validator
         working-directory: dotnet/pr-validator/MeldRx.Community.PrValidator/bin/Release/net8.0/linux-x64
         run: |
-          ./pr-validator verify-sc
+          echo "Checking file differences";
+          CHANGED_FILES="$(git diff --name-only HEAD^1 HEAD | paste -sd ' ' -)";
+
+          echo "Changed files are: $CHANGED_FILES";
+          ./pr-validator verify-sc;
