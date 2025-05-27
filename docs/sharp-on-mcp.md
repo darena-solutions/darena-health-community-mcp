@@ -1,22 +1,19 @@
-# SHARP on MCP
+# Scope and Components
 
-While the scope of this effort will expand over time, our initial release focuses
-on defining an open-source specification and framework for building MCP servers
-that can be plugged into any FHIR server.
+The scope of the Standardized Healthcare Agent Remote Protocol (SHARP) is designed for future expansion.
 
-It is designed for remote, server-hosted execution, using HTTP+SSE/Streamable HTTP
-for communication. We do not include stdio execution. This aligns with “Remote"
-in SHARP.
+**Remote Execution Paradigm:**
+SHARP-on-MCP is explicitly designed for remote, server-hosted execution leveraging Server-Sent Events (SSE) or Streamable HTTP mechanisms for efficient data exchange. This design choice emphatically aligns with the "Remote" aspect embedded within the SHARP acronym, and deliberately excludes support for local stdio (standard input/output) execution models.
 
-While FHIR is the primary initial use case, the specification is intentionally extensible
-and supports integration with other healthcare and research data sources.
+**Extensibility Beyond FHIR:**
+Although FHIR integration represents the primary initial use case, the SHARP-on-MCP specification is intentionally designed for extensibility. It supports seamless integration with a broad spectrum of other healthcare and research data sources and services, anticipating future needs and diverse application requirements.
 
-Inspired by the principles behind SMART on FHIR and CDS Hooks, the SHARP on MCP
-initiative includes:
+**Core Components and Principles:**
 
-- A draft specification
-- MCP Server templates in multiple programming languages
-- A testing harness provided by MeldRx
+Inspired by the robust architectural principles behind established standards such as SMART on FHIR and CDS Hooks, the SHARP-on-MCP initiative comprises the following key components:
 
-Together, these components will help developers rapidly build, validate, and deploy
-modular MCP servers supporting a wide range of LLM-driven applications across healthcare.
+- SHARP-on-MCP Specification: A comprehensive draft specification detailing the protocol for remote MCP server communication and interaction.
+- MCP Server Templates: Reference implementations and foundational code templates for MCP servers, provided in multiple programming languages to accelerate developer adoption and streamline implementation.
+- A Testing Harness: A dedicated testing harness, provided by MeldRx, designed to facilitate rigorous validation and ensure compliance of developed MCP servers with the SHARP-on-MCP specification.
+  
+Collectively, these integrated components aim to empower developers to rapidly build, validate, and deploy modular, interoperable MCP servers. This infrastructure will support a wide range of sophisticated Large Language Model (LLM)-driven applications, fostering innovation and enhancing capabilities across the healthcare ecosystem.

@@ -41,7 +41,7 @@ public class VerifyListToolsCommandHandler : ICommandHandler<VerifyListToolsComm
 
             try
             {
-                await SetupDockerAsync(projectDir);
+                await SetupDockerAsync(command.Language, projectDir);
                 if (!await TryWaitUntilServerIsReadyAsync(projectDir))
                 {
                     return false;
@@ -120,13 +120,18 @@ public class VerifyListToolsCommandHandler : ICommandHandler<VerifyListToolsComm
         }
     }
 
-    private async Task SetupDockerAsync(string projectDir)
+    private async Task SetupDockerAsync(ProgrammingLanguage language, string projectDir)
     {
+        var workingDirectory = Path.Combine(
+            FileUtilities.GetRepoRootDirectory(),
+            language == ProgrammingLanguage.Net ? DirectoryNames.Dotnet : DirectoryNames.Typescript
+        );
+
         using (
             var dockerBuildProcess = new ProcessHelper(
                 "docker",
-                "build -t mcpserver .",
-                workingDirectory: projectDir
+                $"build -t mcpserver -f {Path.Combine(projectDir, "Dockerfile")} .",
+                workingDirectory
             )
         )
         {
@@ -136,7 +141,7 @@ public class VerifyListToolsCommandHandler : ICommandHandler<VerifyListToolsComm
         using var dockerRunProcess = new ProcessHelper(
             "docker",
             "run --rm --name TestMcpServer -d -p 3056:5000 mcpserver:latest",
-            workingDirectory: projectDir
+            workingDirectory
         );
 
         await dockerRunProcess.RunAsync();
