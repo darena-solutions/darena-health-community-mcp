@@ -1,6 +1,6 @@
 FROM node:22-slim
 WORKDIR /app
-COPY /servers/darena-solutions/fhir-crud ./
+COPY /servers/mhaque/conditions-server ./
 RUN npm install
 
 ENV NODE_ENV=production
